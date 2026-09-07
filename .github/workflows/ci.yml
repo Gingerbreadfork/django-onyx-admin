@@ -26,12 +26,13 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install
         run: |
-          uv venv
+          uv venv --clear
           uv pip install "Django~=${{ matrix.django }}.0" pytest pytest-django ruff -e .
+          .venv/bin/python -c "import django, sys; print('Django', django.get_version(), 'on Python', sys.version.split()[0])"
       - name: Lint
-        run: uv run ruff check .
+        run: .venv/bin/ruff check .
       - name: Test
-        run: uv run pytest
+        run: .venv/bin/pytest
 
   build:
     runs-on: ubuntu-latest
