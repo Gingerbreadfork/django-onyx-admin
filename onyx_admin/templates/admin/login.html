@@ -1,0 +1,50 @@
+{% extends "admin/login.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+  <h1 class="visually-hidden">{% translate 'Log in' %}</h1>
+  {% if form.errors and not form.non_field_errors %}
+    <p class="errornote">
+      {% blocktranslate count counter=form.errors.items|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
+    </p>
+  {% endif %}
+  {% for error in form.non_field_errors %}
+    <p class="errornote">{{ error }}</p>
+  {% endfor %}
+  {% if user.is_authenticated %}
+    <p class="errornote">
+      {% blocktranslate trimmed %}
+        You are authenticated as {{ username }}, but are not authorized to
+        access this page. Would you like to login to a different account?
+      {% endblocktranslate %}
+    </p>
+  {% endif %}
+  <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+    <div class="form-row">
+      <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+      {{ form.username }}
+      {{ form.username.errors }}
+    </div>
+    <div class="form-row">
+      <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+      <div class="onyx-password">
+        {{ form.password }}
+        <button type="button" class="onyx-password-toggle" aria-pressed="false" aria-label="{% translate 'Show' %}" data-show="{% translate 'Show' %}" data-hide="{% translate 'Hide' %}"></button>
+      </div>
+      {{ form.password.errors }}
+      <p class="onyx-capslock" role="status" hidden>{% translate 'Caps Lock is on' %}</p>
+      <input type="hidden" name="next" value="{{ next }}">
+    </div>
+    <div class="submit-row">
+      <input type="submit" value="{% translate 'Log in' %}">
+    </div>
+    {% url 'admin_password_reset' as password_reset_url %}
+    {% if password_reset_url %}
+      <div class="password-reset-link">
+        <a href="{{ password_reset_url }}">{% translate 'Forgotten your login credentials?' %}</a>
+      </div>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

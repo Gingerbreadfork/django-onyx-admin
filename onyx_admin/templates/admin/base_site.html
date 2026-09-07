@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+{% load i18n static onyx_admin %}
+
+{% block bodyclass %}{{ block.super }} onyx-font-{% onyx_font %}{% endblock %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+{% if has_permission and is_nav_sidebar_enabled %}<button type="button" class="onyx-menu-toggle" aria-controls="nav-sidebar" aria-expanded="false" aria-label="{% translate 'Toggle navigation' %}"></button>{% endif %}
+<div id="site-name"><a href="{% url 'admin:index' %}">{% block onyx_brand %}{{ site_header|default:_('Django administration') }}{% endblock %}</a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block welcome-msg %}
+<span class="onyx-user" title="{% translate 'Welcome,' %} {% firstof user.get_short_name user.get_username %}"><span class="onyx-avatar {{ user.get_username|onyx_hue }}" aria-hidden="true">{{ user.get_username|first|upper }}</span>{% firstof user.get_short_name user.get_username %}</span>
+{% endblock %}
+
+{% block userlinks %}{% include "onyx_admin/userlinks.html" %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block responsive %}
+{{ block.super }}
+{% onyx_font as font %}
+{% if font == "inter" %}<link rel="preload" href="{% static 'onyx_admin/fonts/inter/inter-latin.woff2' %}" as="font" type="font/woff2" crossorigin>{% elif font == "geist" %}<link rel="preload" href="{% static 'onyx_admin/fonts/geist-sans.woff2' %}" as="font" type="font/woff2" crossorigin>{% endif %}
+<link rel="stylesheet" href="{% static 'onyx_admin/css/onyx.css' %}"{% onyx_nonce_attr %}>
+<script src="{% static 'onyx_admin/js/onyx.js' %}" defer{% onyx_nonce_attr %}></script>
+{% block onyx_extrastyle %}{% endblock %}
+{% endblock %}

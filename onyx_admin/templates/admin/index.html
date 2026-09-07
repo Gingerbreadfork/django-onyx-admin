@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+{% load i18n onyx_admin %}
+
+{% block nav-sidebar %}{% include "admin/nav_sidebar.html" %}{% endblock %}
+
+{% block content_subtitle %}
+<h2 class="onyx-greeting">{% translate 'Welcome,' %} <strong>{% firstof user.get_short_name user.get_username %}</strong> <span class="onyx-greeting-sep">·</span> {% now "DATE_FORMAT" %}</h2>
+{% endblock %}
+
+{% block content %}
+{% onyx_activity as activity %}
+{% if activity %}{% include "onyx_admin/activity.html" %}{% endif %}
+{{ block.super }}
+{% endblock %}

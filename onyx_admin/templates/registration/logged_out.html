@@ -1,0 +1,17 @@
+{% extends "registration/logged_out.html" %}
+{% load i18n %}
+
+{% block bodyclass %}{{ block.super }} login onyx-logged-out{% endblock %}
+{% block nav-breadcrumbs %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <span class="onyx-logged-out-icon" aria-hidden="true"></span>
+  <h1 class="onyx-login-title">{% translate 'Logged out' %}</h1>
+  <p class="onyx-login-subtitle">{% translate "Thanks for spending some quality time with the web site today." %}</p>
+  <div class="submit-row">
+    <a class="button default" href="{% url 'admin:index' %}">{% translate 'Log in again' %}</a>
+  </div>
+</div>
+{% endblock %}

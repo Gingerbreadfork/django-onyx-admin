@@ -1,0 +1,19 @@
+{% load i18n static onyx_admin %}
+<button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="{% translate 'Toggle navigation' %}"></button>
+<nav class="sticky" id="nav-sidebar" aria-label="{% translate 'Sidebar' %}" data-recent-label="{% translate 'Recent' %}">
+  {% url 'admin:index' as index_url %}
+  <a class="onyx-nav-home" href="{{ index_url }}"{% if request.path == index_url %} aria-current="page"{% endif %}>{% translate 'Home' %}</a>
+  <input type="search" id="nav-filter"
+         placeholder="{% translate 'Start typing to filter…' %}"
+         aria-label="{% translate 'Filter navigation items' %}">
+  <script src="{% static 'onyx_admin/js/sidebar.js' %}"{% onyx_nonce_attr %}></script>
+  {% include 'admin/app_list.html' with app_list=available_apps show_changelinks=False %}
+  {% if has_permission %}
+  <div class="onyx-drawer-user">
+    <div class="onyx-drawer-user-name"><span class="onyx-avatar {{ user.get_username|onyx_hue }}" aria-hidden="true">{{ user.get_username|first|upper }}</span>{% firstof user.get_short_name user.get_username %}</div>
+    {% if site_url %}<a href="{{ site_url }}">{% translate 'View site' %}</a>{% endif %}
+    {% if user.has_usable_password %}<a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a>{% endif %}
+    <form method="post" action="{% url 'admin:logout' %}">{% csrf_token %}<button type="submit">{% translate 'Log out' %}</button></form>
+  </div>
+  {% endif %}
+</nav>

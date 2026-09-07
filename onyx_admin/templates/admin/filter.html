@@ -1,0 +1,9 @@
+{% load i18n %}
+<label class="onyx-filter" data-filter-title="{{ title }}">
+  <span class="onyx-filter-label">{{ title|capfirst }}</span>
+  <select class="onyx-filter-select" aria-label="{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}">
+  {% for choice in choices %}
+    <option value="{{ choice.query_string|iriencode }}"{% if choice.selected %} selected{% endif %}>{{ choice.display }}</option>
+  {% endfor %}
+  </select>
+</label>

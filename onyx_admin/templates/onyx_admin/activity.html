@@ -1,0 +1,64 @@
+{% load i18n onyx_admin %}
+<section class="onyx-overview" aria-label="{% translate 'Recent actions' %}">
+  <div class="onyx-stat onyx-stat-add">
+    <span class="onyx-stat-label">{% translate 'Added' %}</span>
+    <span class="onyx-stat-value">{{ activity.stats.add }}</span>
+    <span class="onyx-stat-sub">{% translate 'last 7 days' %}</span>
+  </div>
+  <div class="onyx-stat onyx-stat-change">
+    <span class="onyx-stat-label">{% translate 'Changed' %}</span>
+    <span class="onyx-stat-value">{{ activity.stats.change }}</span>
+    <span class="onyx-stat-sub">{% translate 'last 7 days' %}</span>
+  </div>
+  <div class="onyx-stat onyx-stat-delete">
+    <span class="onyx-stat-label">{% translate 'Deleted' %}</span>
+    <span class="onyx-stat-value">{{ activity.stats.delete }}</span>
+    <span class="onyx-stat-sub">{% translate 'last 7 days' %}</span>
+  </div>
+  <div class="onyx-stat onyx-stat-users">
+    <span class="onyx-stat-label">{% translate 'Active staff' %}</span>
+    <span class="onyx-stat-value">{{ activity.active_users }}</span>
+    <span class="onyx-stat-sub">{% translate 'last 7 days' %}</span>
+  </div>
+  <div class="module onyx-chart">
+    <h2>{% translate 'Activity' %}
+      <span class="onyx-chart-legend">
+        <span class="onyx-legend-add">{% translate 'Added' %}</span>
+        <span class="onyx-legend-change">{% translate 'Changed' %}</span>
+        <span class="onyx-legend-delete">{% translate 'Deleted' %}</span>
+      </span>
+    </h2>
+    <svg viewBox="0 0 {{ activity.chart_width }} {{ activity.chart_height }}" preserveAspectRatio="none" role="img" aria-label="{% translate 'Activity' %}">
+      {% for day in activity.chart %}
+        <g class="onyx-day">
+          <title>{{ day.day|date:"D j M" }}: {{ day.total }}</title>
+          <rect class="onyx-bar-bg" x="{{ day.x }}" y="0" width="{{ activity.bar_width }}" height="{{ activity.chart_height }}"/>
+          {% for segment in day.segments %}
+            <rect class="onyx-bar onyx-bar-{{ segment.kind }}" x="{{ day.x }}" y="{{ segment.y }}" width="{{ activity.bar_width }}" height="{{ segment.height }}"/>
+          {% endfor %}
+        </g>
+      {% endfor %}
+    </svg>
+    <div class="onyx-chart-axis">
+      <span>{{ activity.first_day|date:"j M" }}</span>
+      <span>{% translate 'Today' %}</span>
+    </div>
+  </div>
+  <div class="module onyx-feed">
+    <h2>{% translate 'Team activity' %}</h2>
+    <ul>
+      {% for item in activity.feed %}
+        <li class="onyx-feed-{{ item.kind }}">
+          <span class="onyx-avatar {{ item.username|onyx_hue }}" aria-hidden="true">{{ item.username|first|upper }}</span>
+          <div class="onyx-feed-body">
+            <strong>{{ item.username }}</strong>
+            <span class="onyx-feed-verb">{% if item.kind == "add" %}{% translate 'added' %}{% elif item.kind == "change" %}{% translate 'changed' %}{% else %}{% translate 'deleted' %}{% endif %}</span>
+            <em>{{ item.model }}</em>
+            {% if item.url %}<a href="{{ item.url }}">{{ item.repr }}</a>{% else %}<span>{{ item.repr }}</span>{% endif %}
+            <span class="onyx-feed-time">{% blocktranslate with time=item.time|timesince %}{{ time }} ago{% endblocktranslate %}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

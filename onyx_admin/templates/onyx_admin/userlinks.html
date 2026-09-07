@@ -1,0 +1,22 @@
+{% load i18n %}
+<button type="button" class="onyx-palette-trigger" data-placeholder="{% translate 'Search' %}">
+  <span>{% translate 'Search' %}</span>
+  <kbd>⌘K</kbd>
+</button>
+{% if site_url %}
+  <a href="{{ site_url }}">{% translate 'View site' %}</a>
+{% endif %}
+{% if user.is_active and user.is_staff %}
+  {% url 'django-admindocs-docroot' as docsroot %}
+  {% if docsroot %}
+    <a href="{{ docsroot }}">{% translate 'Documentation' %}</a>
+  {% endif %}
+{% endif %}
+{% if user.has_usable_password %}
+  <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a>
+{% endif %}
+<form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+  {% csrf_token %}
+  <button type="submit">{% translate 'Log out' %}</button>
+</form>
+{% include "admin/color_theme_toggle.html" %}
