@@ -7,9 +7,9 @@ admin's form templates, which is what keeps it working across Django releases.
 
 Works with Django 5.2 LTS, 6.0 and 6.1 on Python 3.10 to 3.14.
 
-![Dashboard, light](docs/screenshots/dashboard-light.png)
+![Dashboard, light](https://raw.githubusercontent.com/Gingerbreadfork/django-onyx-admin/main/docs/screenshots/dashboard-light.png)
 
-![Dashboard, dark](docs/screenshots/dashboard-dark.png)
+![Dashboard, dark](https://raw.githubusercontent.com/Gingerbreadfork/django-onyx-admin/main/docs/screenshots/dashboard-dark.png)
 
 ## Install
 
@@ -75,16 +75,16 @@ Run `collectstatic` as usual. Nothing else is required.
   related-object buttons, file inputs, tabular and stacked inlines,
   collapsible fieldsets.
 
-![Change list](docs/screenshots/changelist.png)
+![Change list](https://raw.githubusercontent.com/Gingerbreadfork/django-onyx-admin/main/docs/screenshots/changelist.png)
 
-![Change form](docs/screenshots/changeform.png)
+![Change form](https://raw.githubusercontent.com/Gingerbreadfork/django-onyx-admin/main/docs/screenshots/changeform.png)
 
 On phones, list rows become cards and the column chooser opens as a sheet
 (light and dark):
 
 <p>
-  <img src="docs/screenshots/phone-changelist.png" width="300" alt="Change list on a phone in light mode with one row selected">
-  <img src="docs/screenshots/phone-columns.png" width="300" alt="Column chooser sheet on a phone in dark mode">
+  <img src="https://raw.githubusercontent.com/Gingerbreadfork/django-onyx-admin/main/docs/screenshots/phone-changelist.png" width="300" alt="Change list on a phone in light mode with one row selected">
+  <img src="https://raw.githubusercontent.com/Gingerbreadfork/django-onyx-admin/main/docs/screenshots/phone-columns.png" width="300" alt="Column chooser sheet on a phone in dark mode">
 </p>
 
 **Login**
